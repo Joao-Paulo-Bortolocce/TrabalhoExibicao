@@ -17,11 +17,12 @@ public class HelloController {
 
 
     public void onIniciar(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+        welcomeText.getScene().getWindow().hide();
     }
 }

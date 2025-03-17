@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="principal" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabalhofx.OrdenacaoController">
+   <children>
+      <Label fx:id="lb_cont" text="CONT[]">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_vet" text="VET[]">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="bt_iniciar" mnemonicParsing="false" onAction="#onIniciar" text="Iniciar ordenação" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <AnchorPane fx:id="exibicao" prefHeight="400.0" prefWidth="600.0">
+
+</AnchorPane>
+   </children>
+</AnchorPane>
