@@ -253,7 +253,7 @@ public class OrdenacaoController implements Initializable {
                         }
 
                     });
-                    espera(200);
+                    espera(50);
                 }
                 linhaNormal(fonte[16]);
                 exibeLinha(17,500);
