@@ -42,7 +42,7 @@ public class MenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sp_menor.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 20, 10));
         sp_maior.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 20, 20));
-        sl_qtd.setValue(30);
+        sl_qtd.setValue(20);
         onAlterar(null);
         menorRange=0;
         maiorRange=20;

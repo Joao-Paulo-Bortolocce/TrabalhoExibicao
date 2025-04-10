@@ -332,7 +332,7 @@ public class OrdenacaoController implements Initializable {
     private void limpaPosicoes(int x, int y, int qtd) {
         int posY = y + tamanho + 5;
         x += 10;
-        for (int i = 0; i < 20; i++, x += 60) {
+        for (int i = 0; i < 30; i++, x += 60) {
             Label lb = new Label();
             lb.setStyle("-fx-background-color: #ffffff; -fx-text-fill: #ffffff;");
             lb.setText("jjjjjjjjjjjjjjjj");
