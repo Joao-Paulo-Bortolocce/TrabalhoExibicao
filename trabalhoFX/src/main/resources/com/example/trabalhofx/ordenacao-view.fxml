@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="principal" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabalhofx.OrdenacaoController">
+<AnchorPane fx:id="principal" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.trabalhofx.OrdenacaoController">
    <children>
       <Label fx:id="lb_cont" text="CONT[]">
          <font>
@@ -19,30 +18,22 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="bt_iniciar" mnemonicParsing="false" onAction="#onIniciar" text="Iniciar ordenação" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="10.0">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Button>
-      <AnchorPane fx:id="exibicao" prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
-      <VBox fx:id="vb_exec" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0" spacing="30.0">
+      <HBox alignment="CENTER" layoutX="50.0" layoutY="10.0" spacing="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label text="Linha em Execucao">
+            <Button fx:id="bt_iniciar" mnemonicParsing="false" onAction="#onIniciar" text="Iniciar ordenação">
                <font>
-                  <Font name="System Bold" size="23.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
-            </Label>
-            <Label fx:id="lb_linhaFonte" maxWidth="280.0" minWidth="280.0" prefWidth="280.0" style="-fx-border-color: black; -fx-border-width: 2;">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
+            </Button>
+            <Label text="Pressione ENTER para iniciar">
                <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font size="22.0" />
                </font>
             </Label>
          </children>
-      </VBox>
+      </HBox>
+      <AnchorPane fx:id="exibicao" prefHeight="400.0" prefWidth="600.0">
+
+</AnchorPane>
    </children>
 </AnchorPane>

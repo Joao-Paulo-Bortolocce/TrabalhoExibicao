@@ -17,12 +17,13 @@ import java.util.ResourceBundle;
 
 public class OrdenacaoController implements Initializable {
 
+
+    String estiloVerde,estiloAzul,estiloCinza,estiloLaranja;
     public Button bt_iniciar;
     public Label lb_vet;
     public Label lb_cont;
     public Label lb_linhaFonte;
-    public VBox vb_exec;
-    private int qtd, menor, maior, x, y, tamanho;
+    private int qtd, menor, maior, x, y, tamanho,tempoFonte=800;
     private Button botoes[];
 
     private Label fonte[];
@@ -41,14 +42,16 @@ public class OrdenacaoController implements Initializable {
         x = 60;
         y = 100;
 //        exibicao.getChildren().clear();
-        //gerarFonte();
+        gerarFonte();
         lb_vet.setLayoutY(y + 10);
         lb_vet.setLayoutX(x - 35);
         lb_cont.setVisible(false);
         botoes = gerarVetorBotoes(x, y, qtd);
-        vb_exec.setLayoutX(800);
-        vb_exec.setLayoutY(400);
         exibicao.getChildren().addAll(botoes);
+        estiloVerde="-fx-background-color: linear-gradient(to bottom, #8BC34A, #4CAF50);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;";
+        estiloAzul="-fx-background-color: linear-gradient(to bottom, #42F5E8, #4257F5);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;";
+        estiloCinza="-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;";
+        estiloLaranja="-fx-background-color: linear-gradient(to bottom, #F58B1B, #F51B21);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;";
         colocaPosicoesSemValor(x, y, qtd);
     }
 
@@ -65,7 +68,6 @@ public class OrdenacaoController implements Initializable {
             exibicao.getChildren().addAll(cont);
             realizarContagem(cont);
         }
-
     }
 
     private void realizarContagem(Button[] cont) {
@@ -73,59 +75,43 @@ public class OrdenacaoController implements Initializable {
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                Platform.runLater(() -> {
-                    fonte[1].setStyle("-fx-background-color: #3392ef");
-                    lb_linhaFonte.setText(fonte[1].getText());
-                });
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Platform.runLater(()->{
-                    fonte[1].setStyle("-fx-background-color: none");
-                    fonte[2].setStyle("-fx-background-color: #3392ef");
-                    lb_linhaFonte.setText(fonte[2].getText());
-                });
+                exibeLinha(1,tempoFonte);
                 for (int i = 0; i < range; i++) {
                     cont[i].setVisible(true);
                 }
+
                 lb_cont.setVisible(true);
+                exibeLinha(2,tempoFonte);
                 lb_cont.setLayoutY(y + 10);
                 lb_cont.setLayoutX(x - 45);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                espera(500);
                 Platform.runLater(()->
                         colocaPosicoes(x, y, range)
                         );
-
                 int pos, valor;
+                exibeLinha(3,500);
                 for (int i = 0; i < qtd; i++) {
                     int finalI = i;
-                    Platform.runLater(() ->
-                            botoes[finalI].setStyle("-fx-background-color: linear-gradient(to bottom, #8BC34A, #4CAF50);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;")
-                    );
+                    addEstilo(botoes[finalI],estiloVerde);
                     pos = Integer.parseInt(botoes[i].getText());
                     pos -= menor;
-                    Thread.sleep(tempo);
+                    espera(tempo);
                     int finalPos = pos;
-                    Platform.runLater(() ->
-                            cont[finalPos].setStyle("-fx-background-color: linear-gradient(to bottom, #8BC34A, #4CAF50);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;")
-                    );
+                    exibeLinha(4,tempoFonte);
+                    linhaAtual(fonte[5]);
+                    addEstilo(cont[finalPos],estiloVerde);
                     valor = Integer.parseInt(cont[pos].getText());
                     valor++;
-                    Thread.sleep(tempo);
+                    espera(tempo);
                     int finalValor = valor;
                     Platform.runLater(() -> cont[finalPos].setText("" + finalValor));
-                    Thread.sleep(tempo);
-                    Platform.runLater(() -> {
-                        botoes[finalI].setStyle("-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                        cont[finalPos].setStyle("-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                    });
-                    Thread.sleep(tempo);
+                    espera(tempo);
+                    linhaNormal(fonte[5]);
+                    addEstilo(botoes[finalI],estiloCinza);
+                    addEstilo(cont[finalPos],estiloCinza);
+                    espera(tempo);
+                    exibeLinha(6,300);
+                    exibeLinha(3,500);
                 }
                 return null;
             }
@@ -137,26 +123,28 @@ public class OrdenacaoController implements Initializable {
     }
 
     private void somarPosicoes(Button[] cont) {
-        int tempo = 200;
+        int tempo = 500;
         Task<Void> soma = new Task<>() {
             @Override
             protected Void call() throws Exception {
+
+                exibeLinha(7,500);
                 for (int i = 1; i < range; i++) {
                     int valorI = i;
-                    Platform.runLater(() -> {
-                        cont[valorI - 1].setStyle("-fx-background-color: linear-gradient(to bottom, #8BC34A, #4CAF50);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                        cont[valorI].setStyle("-fx-background-color: linear-gradient(to bottom, #42F5E8, #4257F5);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                    });
+                    linhaAtual(fonte[8]);
+                    addEstilo(cont[valorI-1],estiloVerde);
+                    addEstilo(cont[valorI],estiloAzul);
                     int soma = Integer.parseInt(cont[valorI - 1].getText()) + Integer.parseInt(cont[valorI].getText());
-                    Thread.sleep(tempo);
+                    espera(tempo);
                     Platform.runLater(() ->
                             cont[valorI].setText("" + soma)
                     );
-                    Thread.sleep(tempo);
-                    Platform.runLater(() -> {
-                        cont[valorI - 1].setStyle("-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                        cont[valorI].setStyle("-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                    });
+                    espera(tempo);
+                    linhaNormal(fonte[8]);
+                    addEstilo(cont[valorI-1],estiloCinza);
+                    addEstilo(cont[valorI],estiloCinza);
+                    exibeLinha(9,300);
+                    exibeLinha(7,500);
                 }
                 return null;
             }
@@ -168,72 +156,124 @@ public class OrdenacaoController implements Initializable {
     }
 
     private void ordenar(Button[] cont) {
+
         y += 100;
+
         Button ordenado[] = gerarVetorBotoes(x, y, qtd);
-        setarValorUnico("null", ordenado, qtd);
+        setarValorUnico("0", ordenado, qtd);
         colocaPosicoesSemValor(x, y, qtd);
+        exibeLinha(10,1000);
         exibicao.getChildren().addAll(ordenado);
         Task<Void> ordenar = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+                exibeLinha(11,500);
                 for (int i = qtd - 1; i >= 0; i--) {
+                    Button aux= new Button();
+                    aux.setVisible(false);
                     int posCont = Integer.parseInt(botoes[i].getText()) - menor;
                     int pos = Integer.parseInt(cont[posCont].getText()) - 1;
                     int posI = i, posOrdenado = pos;
+                    aux.setLayoutX(botoes[posI].getLayoutX());
+                    aux.setLayoutY(botoes[posI].getLayoutY());
+                    aux.setText(botoes[posI].getText());
+                    aux.setMinHeight(botoes[posI].getPrefHeight());
+                    aux.setMinWidth(botoes[posI].getPrefWidth());
+
+                    exibeLinha(12,tempoFonte);
+                    exibeLinha(13,tempoFonte);
+                    addEstilo(botoes[posI],estiloVerde);
+                    addEstilo(aux,estiloVerde);
+                    addEstilo(cont[posCont],estiloAzul);
+                    addEstilo(ordenado[posOrdenado],estiloLaranja);
                     Platform.runLater(() -> {
-                        botoes[posI].setStyle("-fx-background-color: linear-gradient(to bottom, #8BC34A, #4CAF50);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                        cont[posCont].setStyle("-fx-background-color: linear-gradient(to bottom, #42F5E8, #4257F5);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                        ordenado[posOrdenado].setStyle("-fx-background-color: linear-gradient(to bottom, #F58B1B, #F51B21);-fx-text-fill: white;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
+                        exibicao.getChildren().add(aux);
+                        aux.setVisible(true);
                     });
+
+                    linhaAtual(fonte[14]);
                     for (int j = 0; j < 10; j++) {
-                        Platform.runLater(() -> botoes[posI].setLayoutY(botoes[posI].getLayoutY() + 5));
-                        Platform.runLater(() -> ordenado[posOrdenado].setLayoutY(ordenado[posOrdenado].getLayoutY() - 5));
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        Platform.runLater(() -> aux.setLayoutY(aux.getLayoutY() + 5));
+                        espera(50);
                     }
-                    int qtdX = (int) (botoes[posI].getLayoutX() - ordenado[posOrdenado].getLayoutX());
+                    int qtdX = (int) (aux.getLayoutX() - ordenado[posOrdenado].getLayoutX());
                     int movX = qtdX / 60;
                     for (int j = 0; j < 60 && movX != 0; j++) {
-                        Platform.runLater(() -> botoes[posI].setLayoutX(botoes[posI].getLayoutX() - movX));
-                        Platform.runLater(() -> ordenado[posOrdenado].setLayoutX(ordenado[posOrdenado].getLayoutX() + movX));
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        Platform.runLater(() -> aux.setLayoutX(aux.getLayoutX() - movX));
+                        espera(50);
                     }
                     for (int j = 0; j < 15; j++) {
-                        Platform.runLater(() -> ordenado[posOrdenado].setLayoutY(ordenado[posOrdenado].getLayoutY() - 10));
-                        Platform.runLater(() -> botoes[posI].setLayoutY(botoes[posI].getLayoutY() + 10));
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        Platform.runLater(() -> aux.setLayoutY(aux.getLayoutY() + 10));
+                        espera(50);
                     }
                     Platform.runLater(() -> {
-                        botoes[posI].setStyle("-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
-                        ordenado[posOrdenado].setStyle("-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;");
+                        ordenado[posOrdenado].setText(aux.getText());
+                        aux.setVisible(false);
                     });
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    addEstilo(botoes[posI],estiloCinza);
+                    addEstilo(ordenado[posOrdenado],estiloCinza);
+                    addEstilo(aux,estiloCinza);
+                    espera(500);
                     cont[posCont].setText("" + posOrdenado);
-                    Platform.runLater(() -> cont[posCont].setStyle("-fx-background-color: linear-gradient(to bottom, #f2f2f2, #dcdcdc);-fx-text-fill: black;-fx-font-size: 14px;-fx-font-weight: bold;-fx-border-color: black;-fx-border-width: 2px;"));
-                    //permutação na memória
-                    Button aux = botoes[posI];
-                    botoes[posI] = ordenado[posOrdenado];
-                    ordenado[posOrdenado] = aux;
+                    addEstilo(cont[posCont],estiloCinza);
+                    linhaNormal(fonte[14]);
+                    exibeLinha(15,200);
+                    exibeLinha(11,500);
                 }
                 return null;
             }
         };
+        ordenar.setOnSucceeded(event -> finalizar(cont,ordenado));
         Thread thread = new Thread(ordenar);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void finalizar(Button[] cont,Button[] ordenado) {
+
+        int tempo = 100;
+        Task<Void> finalizar = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                linhaNormal(fonte[16]);
+                Platform.runLater(()->{
+
+                    for (int i = 0; i < qtd; i++) {
+                        botoes[i].setVisible(false);
+                    }
+                    limpaPosicoes(x,y,qtd);
+
+                });
+                int caminho=200/10;
+                for (int j = 0; j < caminho; j++) {
+                    Platform.runLater(()->{
+
+                        for (int i = 0; i < qtd; i++) {
+                            ordenado[i].setLayoutY(ordenado[i].getLayoutY()-10);
+                        }
+
+                    });
+                    espera(200);
+                }
+                linhaNormal(fonte[16]);
+                exibeLinha(17,500);
+                Platform.runLater(()->{
+                    for (int i = 0; i < range; i++) {
+                        cont[i].setVisible(false);
+                    }
+                    limpaPosicoes(x,y-100,qtd);
+                    lb_cont.setVisible(false);
+
+
+                });
+                for (int i = 0; i < qtd; i++) {
+                    addEstilo(ordenado[i],estiloAzul);
+                    espera(100);
+                }
+                return null;
+            }
+        };
+        Thread thread = new Thread(finalizar);
         thread.setDaemon(true);
         thread.start();
     }
@@ -241,31 +281,31 @@ public class OrdenacaoController implements Initializable {
     public void gerarFonte() {
         fonte = new Label[18];
         for (int i = 0; i < 18; i++) {
-            //fonte[i]= new Label();
+            fonte[i]= new Label();
         }
         fonte[0].setText("public void counting_sort() {");
-        fonte[1].setText("   int range = maior - menor + 1;");
-        fonte[2].setText("   int cont[] = new int[range];");
-        fonte[3].setText("   for (int i = 0; i < tl; i++) {");
-        fonte[4].setText("      posCont=vet[i]-menor;");
-        fonte[5].setText("      cont[posCont]++;");
-        fonte[6].setText("   }");
-        fonte[7].setText("   for (int i = 1; i < tl; i++) {");
-        fonte[8].setText("      vet[i]+=vet[i-1];");
-        fonte[9].setText("   }");
-        fonte[10].setText("   int ordenado[]=new int[tl];");
-        fonte[11].setText("   for (int i = tl-1; i >.0; i--) {");
-        fonte[12].setText("      posCont=vet[i]-menor;");
-        fonte[13].setText("      posOrdenado=cont[posCont]-1;");
-        fonte[14].setText("   ordenado[posOrdenado]=vet[i];");
-        fonte[15].setText("   }");
-        fonte[16].setText("   vet=ordenado");
+        fonte[1].setText("      int range = maior - menor + 1;");
+        fonte[2].setText("      int cont[] = new int[range];");
+        fonte[3].setText("      for (int i = 0; i < tl; i++) {");
+        fonte[4].setText("            posCont=vet[i]-menor;");
+        fonte[5].setText("            cont[posCont]++;");
+        fonte[6].setText("      }");
+        fonte[7].setText("      for (int i = 1; i < tl; i++) {");
+        fonte[8].setText("            vet[i]+=vet[i-1];");
+        fonte[9].setText("      }");
+        fonte[10].setText("      int ordenado[]=new int[tl];");
+        fonte[11].setText("      for (int i = tl-1; i >0; i--) {");
+        fonte[12].setText("            posCont=vet[i]-menor;");
+        fonte[13].setText("            posOrdenado=cont[posCont]-1;");
+        fonte[14].setText("            ordenado[posOrdenado]=vet[i];");
+        fonte[15].setText("      }");
+        fonte[16].setText("      vet=ordenado");
         fonte[17].setText("}");
-        int base = 370;
+        int base = 450;
         for (int i = 0; i < 18; i++) {
-            fonte[i].setStyle("-fx-font-size: 12px;-fx-font-weight: bold;");
-            fonte[i].setLayoutY(base + i * 17);
-            fonte[i].setLayoutX(400);
+            fonte[i].setStyle("-fx-font-size: 20px;-fx-font-weight: bold;");
+            fonte[i].setLayoutY(base + i * 25);
+            fonte[i].setLayoutX(500);
             fonte[i].setVisible(true);
         }
         exibicao.getChildren().addAll(fonte);
@@ -289,6 +329,20 @@ public class OrdenacaoController implements Initializable {
         }
     }
 
+    private void limpaPosicoes(int x, int y, int qtd) {
+        int posY = y + tamanho + 5;
+        x += 10;
+        for (int i = 0; i < 20; i++, x += 60) {
+            Label lb = new Label();
+            lb.setStyle("-fx-background-color: #ffffff; -fx-text-fill: #ffffff;");
+            lb.setText("jjjjjjjjjjjjjjjj");
+            lb.setLayoutX(x);
+            lb.setLayoutY(posY);
+            exibicao.getChildren().add(lb);
+        }
+    }
+
+
     private void colocaPosicoesSemValor(int x, int y, int qtd) {
         int posY = y + tamanho + 5;
         x += 10;
@@ -305,7 +359,6 @@ public class OrdenacaoController implements Initializable {
         return new Random().nextInt(menor, maior + 1);
     }
 
-
     public Button[] gerarVetorBotoes(int x, int y, int qtd) {
         Button botoes[] = new Button[qtd];
         for (int i = 0; i < qtd; i++, x += 60) {
@@ -318,5 +371,33 @@ public class OrdenacaoController implements Initializable {
             botoes[i].setFont(new Font(14));
         }
         return botoes;
+    }
+
+    private void addEstilo(Button bt,String estilo){
+        Platform.runLater(() ->
+                bt.setStyle(estilo)
+        );
+    }
+
+    private void linhaAtual(Label lb){
+        Platform.runLater(()->lb.setStyle("-fx-font-size: 20px;-fx-font-weight: bold;-fx-background-color: #8BC34A; -fx-text-fill: #ffffff;"));
+    }
+
+    private void linhaNormal(Label lb){
+        Platform.runLater(()->lb.setStyle("-fx-font-size: 20px;-fx-font-weight: bold;-fx-background-color: #white; -fx-text-fill: black;"));
+    }
+
+    private void exibeLinha(int pos,int tempoFonte){
+        linhaAtual(fonte[pos]);
+        espera(tempoFonte);
+        linhaNormal(fonte[pos]);
+    }
+
+    private void espera(int tempo){
+        try {
+            Thread.sleep(tempo);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
