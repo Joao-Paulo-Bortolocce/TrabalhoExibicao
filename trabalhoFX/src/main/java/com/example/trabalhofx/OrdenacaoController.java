@@ -301,10 +301,10 @@ public class OrdenacaoController implements Initializable {
         fonte[15].setText("      }");
         fonte[16].setText("      vet=ordenado");
         fonte[17].setText("}");
-        int base = 450;
+        int base = 380;
         for (int i = 0; i < 18; i++) {
-            fonte[i].setStyle("-fx-font-size: 20px;-fx-font-weight: bold;");
-            fonte[i].setLayoutY(base + i * 25);
+            fonte[i].setStyle("-fx-font-size: 16px;-fx-font-weight: bold;");
+            fonte[i].setLayoutY(base + i * 22);
             fonte[i].setLayoutX(500);
             fonte[i].setVisible(true);
         }
@@ -380,11 +380,11 @@ public class OrdenacaoController implements Initializable {
     }
 
     private void linhaAtual(Label lb){
-        Platform.runLater(()->lb.setStyle("-fx-font-size: 20px;-fx-font-weight: bold;-fx-background-color: #8BC34A; -fx-text-fill: #ffffff;"));
+        Platform.runLater(()->lb.setStyle("-fx-font-size: 16px;-fx-font-weight: bold;-fx-background-color: #8BC34A; -fx-text-fill: #ffffff;"));
     }
 
     private void linhaNormal(Label lb){
-        Platform.runLater(()->lb.setStyle("-fx-font-size: 20px;-fx-font-weight: bold;-fx-background-color: #white; -fx-text-fill: black;"));
+        Platform.runLater(()->lb.setStyle("-fx-font-size: 16px;-fx-font-weight: bold;-fx-background-color: #white; -fx-text-fill: black;"));
     }
 
     private void exibeLinha(int pos,int tempoFonte){
